@@ -25,7 +25,7 @@ function Nonloggedin() {
       <NavLink to="/signup" activeClassName="font-bold">
         <p className="mx-8 text-xl">Signup</p>
       </NavLink>
-      <NavLink to="login" activeClassName="font-bold">
+      <NavLink to="/login" activeClassName="font-bold">
         <p className="text-xl">Login</p>
       </NavLink>
     </>
@@ -38,14 +38,14 @@ function LoggedIn(props) {
       <NavLink to="/" exact activeClassName="font-bold">
         <p className="text-xl">Home</p>
       </NavLink>
-      <NavLink to="/signup" activeClassName="font-bold">
+      <NavLink to="/new-post" activeClassName="font-bold">
         <p className="mx-8 text-xl">create post</p>
       </NavLink>
-      <NavLink to="login" activeClassName="font-bold">
+      <NavLink to="/setting" activeClassName="font-bold">
         <p className="text-xl mr-8">setting</p>
       </NavLink>
 
-      <NavLink to="login" activeClassName="font-bold">
+      <NavLink to="/profile" activeClassName="font-bold">
         <p className="text-xl">profile</p>
       </NavLink>
     </>
