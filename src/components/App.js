@@ -11,21 +11,32 @@ import SinglePost from './SinglePost';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoggedIn: false,
+      user: null,
+    };
   }
+  updatedUser = (user) => {
+    this.setState({
+      isLoggedIn: true,
+      user,
+    });
+  };
 
   render() {
     return (
       <>
-        <Header />
+        <Header state={this.state} />
 
         <Route path="/" exact>
           <Home />
         </Route>
         <Route path="/signup">
-          <Signup />
+          <Signup updatedUser={this.updatedUser} />
         </Route>
         <Route path="/login">
-          <Login />
+          <Login updatedUser={this.updatedUser} />
         </Route>
         <Route path="/articles/:slug" component={SinglePost} />
       </>

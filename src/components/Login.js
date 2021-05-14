@@ -1,12 +1,13 @@
 import React from 'react';
-
+import { login_URL } from '../utils/constant';
+import { withRouter } from 'react-router';
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      error: {
+      errors: {
         email: '',
         password: '',
       },
@@ -19,14 +20,14 @@ class Login extends React.Component {
   };
   handleInput = ({ target }) => {
     let { name, value } = target;
-    let error = { ...this.state.error };
+    let errors = { ...this.state.errors };
 
     switch (name) {
       case 'email':
-        error.email = this.validateEmail(value) ? '' : 'Email is not valid';
+        errors.email = this.validateEmail(value) ? '' : 'Email is not valid';
         break;
       case 'password':
-        error.password =
+        errors.password =
           value.length < 6 ? 'Password cant be less than 6 letters' : '';
         break;
 
@@ -34,17 +35,56 @@ class Login extends React.Component {
         break;
     }
 
-    this.setState({ error, [name]: value });
+    this.setState({ errors, [name]: value });
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { email, password } = this.state;
+    fetch(login_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: { email, password } }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(({ errors }) => {
+            return Promise.reject(errors);
+          });
+        }
+        return res.json();
+      })
+      .then(({ user }) => {
+        console.log(user, 'testtt');
+        this.props.updatedUser(user);
+        this.setState({ email: '', password: '' });
+        this.props.history.push('/');
+      })
+      .catch((errors) => {
+        this.setState((prevState) => {
+          return {
+            ...prevState,
+            errors: {
+              ...prevState.errors,
+              email: 'Email or Password is incorrect!',
+            },
+          };
+        });
+      });
+  };
   render() {
-    let { email, password } = this.state.error;
+    let { email, password } = this.state.errors;
     return (
       <div className="w-full max-w-xs mx-auto">
         <label className="text-2xl font bold text-center mb-12">
           User log in
         </label>
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={this.handleSubmit}
+        >
           <div className="mb-4">
             <label
               className="block text-gray-700 text-xl font-bold mb-2"
@@ -58,7 +98,7 @@ class Login extends React.Component {
               placeholder="email"
               onChange={this.handleInput}
               value={this.state.email}
-              id={email && 'error'}
+              id={email && 'errors'}
               name="email"
             />
           </div>
@@ -72,7 +112,7 @@ class Login extends React.Component {
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id={password && 'error'}
+              id={password && 'errors'}
               type="password"
               placeholder="******************"
               value={this.state.password}
@@ -84,12 +124,18 @@ class Login extends React.Component {
             {password}
           </p>
           <div className="flex items-center justify-between">
-            <button
+            {/* <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
               Sign In
-            </button>
+            </button> */}
+            <input
+              className="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+              type="submit"
+              disabled={email || password}
+              value="Log in"
+            />
             <a
               className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
               href="#"
@@ -103,4 +149,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

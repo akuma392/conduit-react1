@@ -19,7 +19,7 @@ function Post(props) {
             <Link to="/profile">
               <p className="post-author">{author.username}</p>
             </Link>
-            <time className="post-time" datetime="">
+            <time className="post-time" dateTime="">
               {createdAt}
             </time>
           </div>
