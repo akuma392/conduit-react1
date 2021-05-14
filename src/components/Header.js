@@ -1,13 +1,19 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 function Header(props) {
   return (
     <div className="flex justify-between py-5 px-12 bg-gray-100 items-center border-2 border-gray-600">
       <div>
-        <img
+        {/* <img
           src="https://launchpad.altcampus.school/images/altcampus-logo.svg"
           alt=""
-        />
+        /> */}
+        <Link
+          to="/"
+          className="text-2xl text-green-500 font-bold hover:text-green-700"
+        >
+          Conduit
+        </Link>
       </div>
       <nav className="flex">
         {props.state.isLoggedIn ? <LoggedIn /> : <Nonloggedin />}
