@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { signup_URL } from '../utils/constant';
+import { withRouter } from 'react-router';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -8,7 +10,7 @@ class Signup extends React.Component {
       email: '',
       password: '',
       username: '',
-      error: {
+      errors: {
         email: '',
         password: '',
         username: '',
@@ -22,18 +24,18 @@ class Signup extends React.Component {
   };
   handleInput = ({ target }) => {
     let { name, value } = target;
-    let error = this.state.error;
+    let errors = this.state.errors;
 
     switch (name) {
       case 'email':
-        error.email = this.validateEmail(value) ? '' : 'Email is not valid';
+        errors.email = this.validateEmail(value) ? '' : 'Email is not valid';
         break;
       case 'password':
-        error.password =
+        errors.password =
           value.length < 6 ? 'Password cant be less than 6 letter' : '';
         break;
       case 'username':
-        error.username =
+        errors.username =
           value.length < 6 ? 'Username cant be less than 6 letter' : '';
         break;
 
@@ -41,15 +43,46 @@ class Signup extends React.Component {
         break;
     }
 
-    this.setState({ error, [name]: value });
+    this.setState({ errors, [name]: value });
   };
 
+  handleSubmit = (event) => {
+    let { username, email, password } = this.state;
+    event.preventDefault();
+
+    fetch(signup_URL, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ user: { username, email, password } }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(({ errors }) => {
+            return Promise.reject(errors);
+          });
+        }
+        return res.json();
+      })
+      .then(({ user }) => {
+        this.props.updatedUser(user);
+        this.setState({ email: '', username: '', password: '' });
+        this.props.history.push('/');
+      })
+      .catch((errors) => {
+        this.setState({ errors });
+      });
+  };
   render() {
-    let { email, password, username } = this.state.error;
+    let { email, password, username } = this.state.errors;
     return (
       <div className="w-full max-w-xs mx-auto">
         <label className="text-2xl font bold text-center">User Sign up</label>
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={this.handleSubmit}
+        >
           <div className="mb-4">
             <label
               className="block text-gray-700 text-xl font-bold mb-2"
@@ -63,7 +96,7 @@ class Signup extends React.Component {
               placeholder="email"
               onChange={this.handleInput}
               value={this.state.email}
-              id={email && 'error'}
+              id={email && 'errors'}
               name="email"
             />
           </div>
@@ -81,7 +114,7 @@ class Signup extends React.Component {
               placeholder="username"
               onChange={this.handleInput}
               value={this.state.username}
-              id={username && 'error'}
+              id={username && 'errors'}
               name="username"
             />
           </div>
@@ -97,7 +130,7 @@ class Signup extends React.Component {
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id={password && 'error'}
+              id={password && 'errors'}
               type="password"
               placeholder="******************"
               value={this.state.password}
@@ -109,12 +142,18 @@ class Signup extends React.Component {
             {password}
           </p>
           <div className="flex items-center justify-between">
-            <button
+            {/* <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
               Sign Up
-            </button>
+            </button> */}
+            <input
+              className="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+              type="submit"
+              disabled={email || password || username}
+              value="Sign up"
+            />
             <Link to="/login" className="text-xl font-bold text-green-500">
               login
             </Link>
@@ -125,4 +164,4 @@ class Signup extends React.Component {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);

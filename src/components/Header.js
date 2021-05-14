@@ -10,18 +10,45 @@ function Header(props) {
         />
       </div>
       <nav className="flex">
-        <NavLink to="/" exact activeClassName="font-bold">
-          <p className="text-xl">Home</p>
-        </NavLink>
-        <NavLink to="/signup" activeClassName="font-bold">
-          <p className="mx-8 text-xl">Signup</p>
-        </NavLink>
-        <NavLink to="login" activeClassName="font-bold">
-          <p className="text-xl">Login</p>
-        </NavLink>
+        {props.state.isLoggedIn ? <LoggedIn /> : <Nonloggedin />}
       </nav>
     </div>
   );
 }
 
+function Nonloggedin() {
+  return (
+    <>
+      <NavLink to="/" exact activeClassName="font-bold">
+        <p className="text-xl">Home</p>
+      </NavLink>
+      <NavLink to="/signup" activeClassName="font-bold">
+        <p className="mx-8 text-xl">Signup</p>
+      </NavLink>
+      <NavLink to="/login" activeClassName="font-bold">
+        <p className="text-xl">Login</p>
+      </NavLink>
+    </>
+  );
+}
+
+function LoggedIn(props) {
+  return (
+    <>
+      <NavLink to="/" exact activeClassName="font-bold">
+        <p className="text-xl">Home</p>
+      </NavLink>
+      <NavLink to="/new-post" activeClassName="font-bold">
+        <p className="mx-8 text-xl">create post</p>
+      </NavLink>
+      <NavLink to="/setting" activeClassName="font-bold">
+        <p className="text-xl mr-8">setting</p>
+      </NavLink>
+
+      <NavLink to="/profile" activeClassName="font-bold">
+        <p className="text-xl">profile</p>
+      </NavLink>
+    </>
+  );
+}
 export default Header;
