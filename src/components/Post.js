@@ -32,7 +32,7 @@ function Post(props) {
       <Link to={`/articles/${props.articles.slug}`}>
         <div className="post-body">
           <h2 className="post-title">{title}</h2>
-          <p className="post-text">{description}</p>
+          <p className="post-text pr-12">{description}</p>
         </div>
       </Link>
       <footer>

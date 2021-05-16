@@ -67,6 +67,7 @@ class Home extends React.Component {
               <FeedNav
                 activeTag={this.state.activeTag}
                 emptyTag={this.emptyTag}
+                user={this.props.user}
               />
               <Posts articles={this.state.articles} />
               <Pagination
