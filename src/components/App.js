@@ -51,6 +51,7 @@ class App extends React.Component {
   }
 
   updatedUser = (user) => {
+    console.log(user, 'updateduser');
     this.setState({
       isLoggedIn: true,
       user,
@@ -58,8 +59,15 @@ class App extends React.Component {
     });
     localStorage.setItem(localStorageKey, user.token);
   };
-
+  handleLogout = () => {
+    localStorage.clear();
+    this.setState({
+      isLoggedIn: false,
+      user: null,
+    });
+  };
   render() {
+    console.log(this.state.user, 'app user profile');
     if (this.state.isVerifying) {
       return <FullPageSpinner />;
     }
@@ -67,7 +75,11 @@ class App extends React.Component {
       <>
         <Header state={this.state} />
         {this.state.isLoggedIn ? (
-          <LoggedInUser />
+          <LoggedInUser
+            user={this.state.user}
+            updatedUser={this.updatedUser}
+            handleLogout={this.handleLogout}
+          />
         ) : (
           <UnAuthenticatedApp updatedUser={this.updatedUser} />
         )}
@@ -80,18 +92,25 @@ function LoggedInUser(props) {
   return (
     <Switch>
       <Route path="/" exact>
-        <Home />
+        <Home user={props.user} />
       </Route>
       <Route path="/new-post">
-        <NewPost />
+        <NewPost user={props.user} />
       </Route>
       <Route path="/profile">
-        <Profile />
+        <Profile user={props.user} />
       </Route>
       <Route path="/setting">
-        <Setting />
+        <Setting
+          user={props.user}
+          updatedUser={props.updatedUser}
+          handleLogout={props.handleLogout}
+        />
       </Route>
-      <Route path="/articles/:slug" component={SinglePost} />
+      {/* <Route path="/articles/:slug" component={SinglePost} /> */}
+      <Route path="/articles/:slug">
+        <SinglePost user={props.user} />
+      </Route>
       <Route path="*">
         <NoMatch />
       </Route>

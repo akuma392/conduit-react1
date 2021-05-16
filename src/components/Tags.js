@@ -25,7 +25,7 @@ class Tags extends React.Component {
               <li className="p-2 my-1 " key={elm}>
                 <button
                   onClick={() => this.props.addTag(elm)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                  className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded-full"
                 >
                   {elm}
                 </button>
