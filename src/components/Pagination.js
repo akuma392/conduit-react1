@@ -7,7 +7,7 @@ function Pagination(props) {
   for (let i = 1; i <= numberOfPgaes; i++) {
     pagesArray.push(i);
   }
-  console.log(props.active);
+
   return (
     <div className="flex justify-center item-center pagination wrap">
       <div className="prev">

@@ -1,10 +1,11 @@
 import React from 'react';
-import ProfileHero from './ProfileHero';
+
 import { articles_URL } from '../utils/constant';
 import Posts from './Posts';
 import Pagination from './Pagination';
+import UserProfileHero from './UserProfileHero';
 
-class Profile extends React.Component {
+class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,8 +21,8 @@ class Profile extends React.Component {
 
   fetchData = () => {
     let { activetab } = this.state;
-    let { user } = this.props;
-    fetch(articles_URL + `?${activetab}=${user.username}`)
+    let { profile } = this.props;
+    fetch(articles_URL + `?${activetab}=${profile.username}`)
       .then((res) => res.json())
       .then((data) =>
         this.setState({
@@ -31,7 +32,6 @@ class Profile extends React.Component {
   };
 
   handleActiveTab = (tab) => {
-    console.log(tab, this.state.activetab);
     this.setState(
       {
         activetab: tab,
@@ -42,7 +42,12 @@ class Profile extends React.Component {
   render() {
     return (
       <>
-        <ProfileHero user={this.props.user} />
+        <UserProfileHero
+          profile={this.props.profile}
+          followUser={this.props.followUser}
+          unFollowUser={this.props.unFollowUser}
+          user={this.props.user}
+        />
 
         <div className="flex mx-16 my-8 border-b  mx-4 border-gray-300 border-solid">
           <div
@@ -50,7 +55,7 @@ class Profile extends React.Component {
             className="pb-2"
           >
             <button
-              className="outline-none p-2 focus:outline-none focus:border-none "
+              className="outline-none p-2 focus:outline-none focus:border-none"
               onClick={() => this.handleActiveTab('author')}
             >
               My articles
@@ -75,4 +80,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default User;

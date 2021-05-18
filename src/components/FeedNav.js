@@ -5,33 +5,41 @@ function FeedNav(props) {
     <nav className="feed-nav">
       <ul className="flex">
         {props.user && (
-          <li className="feed-nav-item">
+          <li className="feed-nav-item" onClick={props.yourFeed}>
             <Link
-              className="mx-2 text-xl "
-              id={!props.user ? 'active' : ''}
+              className="ml-8 text-base "
+              id={props.activeTag === 'your feed' ? 'active' : ''}
               to="/"
             >
-              <span className="text-gray-700">your feed</span>
+              <span className="text-gray-700 text-base">your feed</span>
             </Link>
           </li>
         )}
         <li className="feed-nav-item " onClick={props.emptyTag}>
           <Link
-            className="ml-5  text-xl "
+            className="ml-2  text-base "
             to="/"
             id={props.activeTag ? '' : 'active'}
           >
-            Global Feed
+            <span className="text-base">Global Feed</span>
           </Link>
         </li>
         {props.activeTag && (
           <li className="feed-nav-item">
             <Link
-              className="ml-5 text-xl"
-              id={props.activeTag ? 'active' : ''}
+              className="ml-2 text-base"
+              id={
+                props.activeTag && props.activeTag !== 'your feed'
+                  ? 'active'
+                  : ''
+              }
               to="/"
             >
-              # {props.activeTag}
+              <span className="text-base">
+                {props.activeTag && props.activeTag !== 'your feed'
+                  ? `# ${props.activeTag}`
+                  : ''}
+              </span>
             </Link>
           </li>
         )}

@@ -57,7 +57,6 @@ class Login extends React.Component {
         return res.json();
       })
       .then(({ user }) => {
-        console.log(user, 'testtt');
         this.props.updatedUser(user);
         this.setState({ email: '', password: '' });
         this.props.history.push('/');

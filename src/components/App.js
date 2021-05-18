@@ -14,6 +14,8 @@ import Profile from './Profile';
 import Setting from './Setting';
 import NewPost from './NewPost';
 import NoMatch from './NoMatch';
+import UserProfile from './UserProfile';
+import UpdatePost from './UpdatePost';
 
 class App extends React.Component {
   constructor(props) {
@@ -108,8 +110,16 @@ function LoggedInUser(props) {
         />
       </Route>
       {/* <Route path="/articles/:slug" component={SinglePost} /> */}
+
+      <Route path="/articles/edit/:slug">
+        <UpdatePost user={props.user} />
+      </Route>
       <Route path="/articles/:slug">
         <SinglePost user={props.user} />
+      </Route>
+      {/* <Route path="/profiles/:username" component={UserProfile} /> */}
+      <Route path="/profiles/:username">
+        <UserProfile user={props.user} />
       </Route>
       <Route path="*">
         <NoMatch />
