@@ -59,6 +59,28 @@ class Home extends React.Component {
       this.fetchData();
     }
   }
+  // favoriteArticle = (slug) => {
+  //   fetch(articles_URL + '/' + slug + '/favorite', {
+  //     method: 'POST',
+  //     headers: {
+  //       authorization: `Token ${this.props.user.token}`,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         return res.json().then(({ errors }) => {
+  //           return Promise.reject(errors);
+  //         });
+  //       }
+  //       return res.json();
+  //     })
+  //     .then(({ article }) => {
+  //       this.fetchData();
+  //     })
+  //     .catch((errors) => {
+  //       console.log(errors);
+  //     });
+  // };
   favoriteArticle = (slug) => {
     fetch(articles_URL + '/' + slug + '/favorite', {
       method: 'POST',

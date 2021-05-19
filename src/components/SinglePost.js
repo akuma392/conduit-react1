@@ -125,9 +125,11 @@ class SinglePost extends React.Component {
               src={article.author.image || '/images/smiley.jpg'}
               alt={article.author.username}
             />
-            <p className="post-author text-xl text-green-200 text-white">
-              {this.state.article.author.username}
-            </p>
+            <Link to={`/profiles/${this.state.article.author.username}`}>
+              <p className="post-author text-xl text-green-200 text-white">
+                {this.state.article.author.username}
+              </p>
+            </Link>
 
             <time className="post-time text-white text-xs" dateTime="">
               {article.createdAt}
@@ -142,12 +144,12 @@ class SinglePost extends React.Component {
           </div>
         </div>
         <div className="w-3/4 mx-auto my-2 max-w-7xl">
-          <p className="text-base text-center text-gray-500 py-2">
+          <p className="text-lg mt-5 font-bold text-black-600 py-2">
             {article.description}
           </p>
         </div>
         <div className="w-3/4 mx-auto mb-12 mt-5 max-w-7xl">
-          <p className="text-xl py-5">{article.body}</p>
+          <p className="text-base text-gray-700 py-2">{article.body}</p>
         </div>
         <div className="text-center p-5">
           {article.tagList.length
@@ -155,7 +157,7 @@ class SinglePost extends React.Component {
                 return (
                   <span
                     key={i}
-                    className="mr-5 p-2 border-2 border-solid border-gray-300 hover:text-blue-400 rounded"
+                    className="mr-5 p-2 border-2 border-solid border-gray-300 hover:text-blue-400 rounded text-base"
                   >
                     {tag}
                   </span>
