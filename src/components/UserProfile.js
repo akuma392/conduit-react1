@@ -2,10 +2,7 @@ import React from 'react';
 import { Profile_URL } from '../utils/constant';
 import FullPageSpinner from './FullPageSpinner';
 import User from './User';
-<<<<<<< HEAD
 import { withRouter } from 'react-router-dom';
-=======
->>>>>>> main
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -13,15 +10,11 @@ class UserProfile extends React.Component {
 
     this.state = {
       user: null,
-<<<<<<< HEAD
       isFollowing: false,
-=======
->>>>>>> main
     };
   }
 
   componentDidMount() {
-<<<<<<< HEAD
     let username = this.props.match.params.username;
     console.log(username);
     fetch(Profile_URL + `/${username}`)
@@ -41,12 +34,6 @@ class UserProfile extends React.Component {
       method: 'POST',
       headers: {
         authorization: `Token ${this.props.user.token}`,
-=======
-    fetch(Profile_URL, {
-      method: 'GET',
-      headers: {
-        authorization: `Token ${key}`,
->>>>>>> main
       },
     })
       .then((res) => {
@@ -57,7 +44,6 @@ class UserProfile extends React.Component {
           return Promise.reject(errors);
         });
       })
-<<<<<<< HEAD
       .then(({ profile }) => {
         this.setState({ isFollowing: true, user: profile });
       })
@@ -79,20 +65,11 @@ class UserProfile extends React.Component {
   render() {
     console.log(this.props.user, 'do you know');
     if (!this.state.user) {
-=======
-      .then(({ user }) => this.setState({ user: user }))
-      .catch((errors) => console.log(errors));
-  }
-
-  render() {
-    if (this.state.user) {
->>>>>>> main
       return <FullPageSpinner />;
     }
 
     return (
       <>
-<<<<<<< HEAD
         <User
           profile={this.state.user}
           followUser={this.followUser}
@@ -100,16 +77,9 @@ class UserProfile extends React.Component {
           isFollowing={this.state.isFollowing}
           user={this.props.user}
         />
-=======
-        <User />
->>>>>>> main
       </>
     );
   }
 }
 
-<<<<<<< HEAD
 export default withRouter(UserProfile);
-=======
-export default UserProfile;
->>>>>>> main

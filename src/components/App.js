@@ -15,10 +15,7 @@ import Setting from './Setting';
 import NewPost from './NewPost';
 import NoMatch from './NoMatch';
 import UserProfile from './UserProfile';
-<<<<<<< HEAD
 import UpdatePost from './UpdatePost';
-=======
->>>>>>> main
 
 class App extends React.Component {
   constructor(props) {
@@ -120,14 +117,10 @@ function LoggedInUser(props) {
       <Route path="/articles/:slug">
         <SinglePost user={props.user} />
       </Route>
-<<<<<<< HEAD
       {/* <Route path="/profiles/:username" component={UserProfile} /> */}
       <Route path="/profiles/:username">
         <UserProfile user={props.user} />
       </Route>
-=======
-      <Route path="/profiles/:username" component={UserProfile} />
->>>>>>> main
       <Route path="*">
         <NoMatch />
       </Route>
