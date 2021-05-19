@@ -7,6 +7,10 @@ const login_URL = ROOT_URL + 'users/login';
 const localStorageKey = 'user_key';
 const verify_URL = ROOT_URL + 'user';
 const Profile_URL = ROOT_URL + 'profiles';
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 export {
   ROOT_URL,
   articles_URL,
