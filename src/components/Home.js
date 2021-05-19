@@ -26,6 +26,31 @@ class Home extends React.Component {
     this.setState({ activeTag: value });
   };
 
+  yourFeed = () => {
+    fetch(articles_URL + '/feed', {
+      method: 'GET',
+      headers: {
+        authorization: `Token ${this.props.user.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(({ errors }) => {
+            return Promise.reject(errors);
+          });
+        }
+        return res.json();
+      })
+      .then(({ articles }) => {
+        this.setState({
+          articles: articles,
+          activeTag: 'your feed',
+        });
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  };
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.activePage !== this.state.activePage ||
@@ -34,6 +59,42 @@ class Home extends React.Component {
       this.fetchData();
     }
   }
+  favoriteArticle = (slug) => {
+    fetch(articles_URL + '/' + slug + '/favorite', {
+      method: 'POST',
+      headers: {
+        authorization: `Token ${this.props.user.token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(({ errors }) => {
+            return Promise.reject(errors);
+          });
+        }
+        return res.json();
+      })
+      .then(({ article }) => {
+        this.fetchData();
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  };
+  unFavoriteArticle = (slug) => {
+    fetch(articles_URL + '/' + slug + '/favorite', {
+      method: 'DELETE',
+      headers: {
+        authorization: `Token ${this.props.user.token}`,
+      },
+    })
+      .then(({ article }) => {
+        this.fetchData();
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  };
   fetchData = () => {
     let limit = this.state.articlesPerPage;
     let offset = (this.state.activePage - 1) * limit;
@@ -57,6 +118,7 @@ class Home extends React.Component {
     this.setState({ activePage: index }, this.fetchData);
   };
   render() {
+    console.log(this.state.articles, 'your feed');
     return (
       <>
         <Hero />
@@ -68,8 +130,13 @@ class Home extends React.Component {
                 activeTag={this.state.activeTag}
                 emptyTag={this.emptyTag}
                 user={this.props.user}
+                yourFeed={this.yourFeed}
               />
-              <Posts articles={this.state.articles} />
+              <Posts
+                articles={this.state.articles}
+                favoriteArticle={this.favoriteArticle}
+                unFavoriteArticle={this.unFavoriteArticle}
+              />
               <Pagination
                 articlesCount={this.state.articlesCount}
                 articlesPerPage={this.state.articlesPerPage}

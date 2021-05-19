@@ -15,17 +15,18 @@ class Tags extends React.Component {
     if (!this.state.tags) {
       return <Loader />;
     }
-    console.log(this.state.tags, 'tags');
+
+    let filterTag = this.state.tags.filter((elm) => elm);
     return (
-      <div className="tag text-center">
+      <div className="tag text-center bg-gray-200">
         <h2 className="text-2xl font-bold">Popular tags</h2>
-        <ul className="grid grid-cols-2 grid-3 w-64">
-          {this.state.tags.map((elm) => {
+        <ul className="grid grid-cols-3 gap-1 mt-5">
+          {filterTag.map((elm) => {
             return (
-              <li className="p-2 my-1 " key={elm}>
+              <li className="mb-1" key={elm}>
                 <button
                   onClick={() => this.props.addTag(elm)}
-                  className="bg-blue-500 hover:bg-blue-700 text-sm text-white font-bold py-2 px-4 rounded-full"
+                  className="border-2 border-solid border-gray-400 text-gray-700 hover:bg-black hover:bg-opacity-80 hover:text-white text-xs font-bold py-1 px-2 rounded"
                 >
                   {elm}
                 </button>

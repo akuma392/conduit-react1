@@ -11,7 +11,7 @@ class Setting extends React.Component {
       password: '',
       username: this.props.user.username,
       bio: '',
-      image: '',
+      image: this.props.user.image,
       errors: {
         email: '',
         username: '',
@@ -65,6 +65,7 @@ class Setting extends React.Component {
             placeholder="Url of profile picture"
             name="image"
             onChange={this.handleInput}
+            value={this.state.image}
           />
           <input
             className="w-full py-5 my-2 px-8 rounded shadow appearance-none border border-blue-200 focus:outline-none focus:ring-1 focus:ring-blue-400"

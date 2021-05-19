@@ -50,7 +50,7 @@ class Profile extends React.Component {
             className="pb-2"
           >
             <button
-              className="outline-none p-2"
+              className="outline-none p-2 focus:outline-none focus:border-none "
               onClick={() => this.handleActiveTab('author')}
             >
               My articles
@@ -61,7 +61,7 @@ class Profile extends React.Component {
             id={this.state.activetab === 'favorited' ? 'active' : ''}
           >
             <button
-              className="outline-none p-2"
+              className="outline-none p-2 focus:outline-none focus:border-none"
               onClick={() => this.handleActiveTab('favorited')}
             >
               Favorited articles
