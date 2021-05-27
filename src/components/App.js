@@ -126,9 +126,7 @@ function LoggedInUser(props) {
       <Route path="/profiles/:username">
         <UserProfile user={props.user} />
       </Route>
-      <Route path="*">
-        <NoMatch />
-      </Route>
+      <Route path="*" component={NoMatch}></Route>
     </Switch>
   );
 }
@@ -145,9 +143,7 @@ function UnAuthenticatedApp(props) {
         <Login />
       </Route>
       <Route path="/articles/:slug" component={SinglePost} />
-      <Route path="*">
-        <NoMatch />
-      </Route>
+      <Route path="*" component={NoMatch}></Route>
     </Switch>
   );
 }
