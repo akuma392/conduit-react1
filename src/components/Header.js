@@ -1,7 +1,10 @@
 import { NavLink, Link } from 'react-router-dom';
+import { useContext } from 'react';
+import UserContext from './UserContext';
 
-function Header(props) {
-  console.log(props.user, 'header');
+function Header() {
+  let { isLoggedIn, user } = useContext(UserContext);
+  console.log(isLoggedIn, user, 'header');
   return (
     <div className="flex justify-between py-5 px-12 bg-gray-100 items-center border-2 border-gray-600">
       <div>
@@ -17,11 +20,7 @@ function Header(props) {
         </Link>
       </div>
       <nav className="flex">
-        {props.state.isLoggedIn ? (
-          <LoggedIn user={props.state.user} />
-        ) : (
-          <Nonloggedin />
-        )}
+        {isLoggedIn ? <LoggedIn user={user} /> : <Nonloggedin />}
       </nav>
     </div>
   );
@@ -44,6 +43,7 @@ function Nonloggedin() {
 }
 
 function LoggedIn(props) {
+  let { isLoggedIn, user } = useContext(UserContext);
   return (
     <>
       <NavLink to="/" exact activeClassName="font-bold">
@@ -57,7 +57,7 @@ function LoggedIn(props) {
       </NavLink>
 
       <NavLink to="/profile" activeClassName="font-bold">
-        <p className="text-xl hover:text-gray-500">{props.user.username}</p>
+        <p className="text-xl hover:text-gray-500">{user.username}</p>
       </NavLink>
     </>
   );

@@ -2,16 +2,18 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { verify_URL } from '../utils/constant';
+import Loader from './Loader';
+import UserContext from './UserContext';
 
 class Setting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: this.props.user.email,
+      email: '',
       password: '',
-      username: this.props.user.username,
+      username: '',
       bio: '',
-      image: this.props.user.image,
+      image: '',
       errors: {
         email: '',
         username: '',
@@ -19,20 +21,31 @@ class Setting extends React.Component {
       },
     };
   }
+  static contextType = UserContext;
   handleInput = ({ target }) => {
     let { name, value } = target;
 
     this.setState({ [name]: value });
   };
+  componentDidMount() {
+    let { user } = this.context;
+    console.log(user, 'component did mount');
+    this.setState({
+      email: user.email,
+      username: user.username,
+      image: user.image,
+    });
+  }
   handleSubmit = (event) => {
     let { username, email, bio, image } = this.state;
+    let { user, updatedUser } = this.context;
     event.preventDefault();
 
     fetch(verify_URL, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
       body: JSON.stringify({ user: { username, email, bio, image } }),
     })
@@ -45,7 +58,7 @@ class Setting extends React.Component {
         return res.json();
       })
       .then(({ user }) => {
-        this.props.updatedUser(user);
+        updatedUser(user);
         // this.setState({ email: '', username: '', password: '' });
         this.props.history.push('/');
       });
@@ -55,6 +68,10 @@ class Setting extends React.Component {
   };
 
   render() {
+    let { handleLogout } = this.context;
+    if (!this.state.username) {
+      return <Loader />;
+    }
     return (
       <>
         <h2 className="text-3xl mt-8 text-center font-bold">Your Settings</h2>
@@ -116,7 +133,7 @@ class Setting extends React.Component {
               className="hover:bg-red-400 hover:border-none hover:text-white font-bold py-2 mt-5 mb-12 px-10 text-sm rounded focus:outline-none focus:shadow-outline border-2 border-solid border-red-300 text-red-300"
               type="submit"
               value="or click for logout"
-              onClick={this.props.handleLogout}
+              onClick={handleLogout}
             />
           </Link>
         </div>

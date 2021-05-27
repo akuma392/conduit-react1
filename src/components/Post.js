@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Post(props) {
   const { author, createdAt, title, description, favoritesCount } =
     props.articles;
-  console.log(props.articles, 'favt test');
+
   return (
     <article className="post w-5/12 ml-12">
       <header className="flex justify-between item-center">

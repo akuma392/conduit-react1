@@ -6,6 +6,7 @@ import Tags from './Tags';
 import FeedNav from './FeedNav';
 import { articles_URL } from '../utils/constant';
 import Pagination from './Pagination';
+import UserContext from './UserContext';
 
 class Home extends React.Component {
   state = {
@@ -15,6 +16,7 @@ class Home extends React.Component {
     activePage: 1,
     activeTag: '',
   };
+  static contextType = UserContext;
   componentDidMount() {
     this.fetchData();
   }
@@ -27,10 +29,12 @@ class Home extends React.Component {
   };
 
   yourFeed = () => {
+    const { isLoggedIn, user } = this.context;
+    console.log(isLoggedIn, user, 'home context');
     fetch(articles_URL + '/feed', {
       method: 'GET',
       headers: {
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
     })
       .then((res) => {
@@ -82,10 +86,11 @@ class Home extends React.Component {
   //     });
   // };
   favoriteArticle = (slug) => {
+    const { isLoggedIn, user } = this.context;
     fetch(articles_URL + '/' + slug + '/favorite', {
       method: 'POST',
       headers: {
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
     })
       .then((res) => {
@@ -104,10 +109,11 @@ class Home extends React.Component {
       });
   };
   unFavoriteArticle = (slug) => {
+    const { isLoggedIn, user } = this.context;
     fetch(articles_URL + '/' + slug + '/favorite', {
       method: 'DELETE',
       headers: {
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
     })
       .then(({ article }) => {
@@ -151,7 +157,6 @@ class Home extends React.Component {
               <FeedNav
                 activeTag={this.state.activeTag}
                 emptyTag={this.emptyTag}
-                user={this.props.user}
                 yourFeed={this.yourFeed}
               />
               <Posts

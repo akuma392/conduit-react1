@@ -2,6 +2,7 @@ import React from 'react';
 
 import { articles_URL } from '../utils/constant';
 import { withRouter } from 'react-router';
+import UserContext from './UserContext';
 
 class NewPost extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class NewPost extends React.Component {
       },
     };
   }
-
+  static contextType = UserContext;
   handleInput = ({ target }) => {
     let { name, value } = target;
     let errors = this.state.errors;
@@ -46,6 +47,7 @@ class NewPost extends React.Component {
   };
 
   handleSubmit = (event) => {
+    let { user } = this.context;
     let { title, description, body, tagList } = this.state;
     event.preventDefault();
 
@@ -53,7 +55,7 @@ class NewPost extends React.Component {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
       body: JSON.stringify({
         article: {
