@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { articles_URL } from '../utils/constant';
 import Loader from './Loader';
 import { Link, withRouter } from 'react-router-dom';
+import UserContext from './UserContext';
 
 class SinglePost extends React.Component {
   state = {
@@ -10,7 +11,7 @@ class SinglePost extends React.Component {
     comments: [],
     commentBody: '',
   };
-
+  static contextType = UserContext;
   // componentDidMount() {
   //   let slug = this.props.match.params.slug;
 
@@ -63,13 +64,14 @@ class SinglePost extends React.Component {
     }).then((data) => this.props.history.push('/'));
   };
   addComment = (event) => {
+    let { user } = this.context;
     event.preventDefault();
     let slug = this.props.match.params.slug;
     fetch(articles_URL + `/` + slug + '/comments', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
       body: JSON.stringify({
         comment: {
@@ -88,11 +90,12 @@ class SinglePost extends React.Component {
 
   deleteComment = (id) => {
     let slug = this.props.match.params.slug;
+    let { user } = this.context;
     fetch(articles_URL + `/` + slug + '/comments/' + id, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
     }).then((comment) => {
       this.componentDidMount();
@@ -111,7 +114,7 @@ class SinglePost extends React.Component {
     }
 
     let { article } = this.state;
-    let { user } = this.props;
+    let { user } = this.context;
 
     return (
       <>
@@ -199,7 +202,6 @@ class SinglePost extends React.Component {
             <Comments
               comments={this.state.comments}
               article={this.state.article}
-              user={this.props.user}
               deleteComment={this.deleteComment}
             />
           )}
@@ -210,8 +212,9 @@ class SinglePost extends React.Component {
 }
 
 function Comments(props) {
+  let { user } = useContext(UserContext);
   let articleAuthor = props.article.author.username;
-  let LoggedInUser = props.user ? props.user.username : null;
+  let LoggedInUser = user ? user.username : null;
   return (
     <>
       {props.comments.map((comment) => {

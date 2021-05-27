@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { signup_URL } from '../utils/constant';
 import { withRouter } from 'react-router';
-
+import UserContext from './UserContext';
 class Signup extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +17,7 @@ class Signup extends React.Component {
       },
     };
   }
+  static contextType = UserContext;
   validateEmail = (email) => {
     const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -48,6 +49,7 @@ class Signup extends React.Component {
 
   handleSubmit = (event) => {
     let { username, email, password } = this.state;
+    let { updatedUser } = this.context;
     event.preventDefault();
 
     fetch(signup_URL, {
@@ -66,7 +68,7 @@ class Signup extends React.Component {
         return res.json();
       })
       .then(({ user }) => {
-        this.props.updatedUser(user);
+        updatedUser(user);
         this.setState({ email: '', username: '', password: '' });
         this.props.history.push('/');
       })

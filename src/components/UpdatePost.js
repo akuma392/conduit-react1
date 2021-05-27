@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import { articles_URL } from '../utils/constant';
 import { withRouter } from 'react-router';
 import Loader from './Loader';
+import UserContext from './UserContext';
 
 class UpdatePost extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class UpdatePost extends React.Component {
       },
     };
   }
-
+  static contextType = UserContext;
   handleInput = ({ target }) => {
     let { name, value } = target;
     let errors = this.state.errors;
@@ -63,6 +64,7 @@ class UpdatePost extends React.Component {
   }
   handleSubmit = (event) => {
     let { title, description, body, tagList } = this.state;
+    let { user } = this.context;
     event.preventDefault();
     let slug = this.props.match.params.slug;
     console.log(tagList, 'article update');
@@ -70,7 +72,7 @@ class UpdatePost extends React.Component {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
-        authorization: `Token ${this.props.user.token}`,
+        authorization: `Token ${user.token}`,
       },
       body: JSON.stringify({
         article: {

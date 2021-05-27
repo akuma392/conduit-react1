@@ -3,6 +3,9 @@ import ProfileHero from './ProfileHero';
 import { articles_URL } from '../utils/constant';
 import Posts from './Posts';
 import Pagination from './Pagination';
+import { useContext } from 'react';
+
+import UserContext from './UserContext';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -13,14 +16,14 @@ class Profile extends React.Component {
       profile: null,
     };
   }
-
+  static contextType = UserContext;
   componentDidMount() {
     this.fetchData();
   }
 
   fetchData = () => {
     let { activetab } = this.state;
-    let { user } = this.props;
+    let { user } = this.context;
     fetch(articles_URL + `?${activetab}=${user.username}`)
       .then((res) => res.json())
       .then((data) =>
@@ -42,7 +45,7 @@ class Profile extends React.Component {
   render() {
     return (
       <>
-        <ProfileHero user={this.props.user} />
+        <ProfileHero />
 
         <div className="flex mx-16 my-8 border-b  mx-4 border-gray-300 border-solid">
           <div

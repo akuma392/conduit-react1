@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+
+import UserContext from './UserContext';
 
 function FeedNav(props) {
+  let { user } = useContext(UserContext);
   return (
     <nav className="feed-nav">
       <ul className="flex">
-        {props.user && (
+        {user && (
           <li className="feed-nav-item" onClick={props.yourFeed}>
             <Link
               className="ml-8 text-base "

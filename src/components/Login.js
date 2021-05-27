@@ -1,6 +1,8 @@
 import React from 'react';
 import { login_URL } from '../utils/constant';
 import { withRouter } from 'react-router';
+import UserContext from './UserContext';
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,7 @@ class Login extends React.Component {
       },
     };
   }
+  static contextType = UserContext;
   validateEmail = (email) => {
     //eslint-disable-next-line
     const re =
@@ -40,6 +43,7 @@ class Login extends React.Component {
   };
 
   handleSubmit = (event) => {
+    let { updatedUser } = this.context;
     event.preventDefault();
     const { email, password } = this.state;
     fetch(login_URL, {
@@ -58,7 +62,7 @@ class Login extends React.Component {
         return res.json();
       })
       .then(({ user }) => {
-        this.props.updatedUser(user);
+        updatedUser(user);
         this.setState({ email: '', password: '' });
         this.props.history.push('/');
       })

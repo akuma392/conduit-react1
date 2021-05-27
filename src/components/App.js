@@ -16,6 +16,7 @@ import NewPost from './NewPost';
 import NoMatch from './NoMatch';
 import UserProfile from './UserProfile';
 import UpdatePost from './UpdatePost';
+import { UserProvider } from './UserContext';
 
 class App extends React.Component {
   constructor(props) {
@@ -69,22 +70,26 @@ class App extends React.Component {
     });
   };
   render() {
-    console.log(this.state.user, 'app user profile');
-    if (this.state.isVerifying) {
+    let { isLoggedIn, isVerifying, user } = this.state;
+    let { handleLogout, updatedUser } = this;
+
+    if (isVerifying) {
       return <FullPageSpinner />;
     }
     return (
       <>
-        <Header state={this.state} />
-        {this.state.isLoggedIn ? (
-          <LoggedInUser
-            user={this.state.user}
-            updatedUser={this.updatedUser}
-            handleLogout={this.handleLogout}
-          />
-        ) : (
-          <UnAuthenticatedApp updatedUser={this.updatedUser} />
-        )}
+        <UserProvider value={{ isLoggedIn, user, handleLogout, updatedUser }}>
+          <Header />
+          {isLoggedIn ? (
+            <LoggedInUser
+              user={this.state.user}
+              updatedUser={this.updatedUser}
+              handleLogout={this.handleLogout}
+            />
+          ) : (
+            <UnAuthenticatedApp updatedUser={this.updatedUser} />
+          )}
+        </UserProvider>
       </>
     );
   }
@@ -94,28 +99,28 @@ function LoggedInUser(props) {
   return (
     <Switch>
       <Route path="/" exact>
-        <Home user={props.user} />
+        <Home />
       </Route>
       <Route path="/new-post">
-        <NewPost user={props.user} />
+        <NewPost />
       </Route>
       <Route path="/profile">
-        <Profile user={props.user} />
+        <Profile />
       </Route>
       <Route path="/setting">
         <Setting
-          user={props.user}
-          updatedUser={props.updatedUser}
-          handleLogout={props.handleLogout}
+        // user={props.user}
+        // updatedUser={props.updatedUser}
+        // handleLogout={props.handleLogout}
         />
       </Route>
       {/* <Route path="/articles/:slug" component={SinglePost} /> */}
 
       <Route path="/articles/edit/:slug">
-        <UpdatePost user={props.user} />
+        <UpdatePost />
       </Route>
       <Route path="/articles/:slug">
-        <SinglePost user={props.user} />
+        <SinglePost />
       </Route>
       {/* <Route path="/profiles/:username" component={UserProfile} /> */}
       <Route path="/profiles/:username">
@@ -134,10 +139,10 @@ function UnAuthenticatedApp(props) {
         <Home />
       </Route>
       <Route path="/signup">
-        <Signup updatedUser={props.updatedUser} />
+        <Signup />
       </Route>
       <Route path="/login">
-        <Login updatedUser={props.updatedUser} />
+        <Login />
       </Route>
       <Route path="/articles/:slug" component={SinglePost} />
       <Route path="*">
