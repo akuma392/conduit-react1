@@ -169,7 +169,7 @@ class SinglePost extends React.Component {
             : ''}
         </div>
         <div className="mt-12 mx-auto text-xl">
-          {!this.props.user ? (
+          {!user ? (
             <p className="text-center text-sm">
               <Link
                 className="text-green-600 font-bold hover:underline mr-2"
