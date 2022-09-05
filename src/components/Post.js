@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Post(props) {
   const { author, createdAt, title, description, favoritesCount } =
@@ -12,7 +12,7 @@ function Post(props) {
           <Link to="/profile">
             <img
               className="author-img"
-              src={author.image || '/images/smiley.jpg'}
+              src={author.image || "/images/smiley.jpg"}
               alt={author.username}
             />
           </Link>
@@ -28,7 +28,7 @@ function Post(props) {
         <div
           className={
             favoritesCount === 0
-              ? 'text-green-700 border-2 border-green-600 border-solid like-btn p-2 cursor-pointer'
+              ? "text-green-700 border-2 border-green-600 border-solid like-btn p-2 cursor-pointer"
               : `bg-green-600 text-white like-btn p-2 cursor-pointer border-2 border-solid border-green-600`
           }
           onClick={
@@ -45,7 +45,7 @@ function Post(props) {
         <div className="post-body">
           <h2 className="post-title my-2 font-bold">{title}</h2>
           <p className="post-text pr-12">
-            {description.substring(0, 50).concat('....')}
+            {description?.substring(0, 50).concat("....")}
           </p>
         </div>
       </Link>
