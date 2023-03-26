@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from "react-router-dom";
 
-import { verify_URL } from '../utils/constant';
-import { localStorageKey } from '../utils/constant';
-import Header from './Header';
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import SinglePost from './SinglePost';
-import FullPageSpinner from './FullPageSpinner';
-import Profile from './Profile';
-import Setting from './Setting';
-import NewPost from './NewPost';
-import NoMatch from './NoMatch';
-import UserProfile from './UserProfile';
-import UpdatePost from './UpdatePost';
-import { UserProvider } from './UserContext';
+import { verify_URL } from "../utils/constant";
+import { localStorageKey } from "../utils/constant";
+import Header from "./Header";
+import Home from "./Home";
+import Login from "./Login";
+import Signup from "./Signup";
+import SinglePost from "./SinglePost";
+import FullPageSpinner from "./FullPageSpinner";
+import Profile from "./Profile";
+import Setting from "./Setting";
+import NewPost from "./NewPost";
+import NoMatch from "./NoMatch";
+import UserProfile from "./UserProfile";
+import UpdatePost from "./UpdatePost";
+import { UserProvider } from "./UserContext";
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class App extends React.Component {
     let key = localStorage[localStorageKey];
     if (key) {
       fetch(verify_URL, {
-        method: 'GET',
+        method: "GET",
         headers: {
           authorization: `Token ${key}`,
         },
@@ -54,7 +54,7 @@ class App extends React.Component {
   }
 
   updatedUser = (user) => {
-    console.log(user, 'updateduser');
+    console.log(user, "updateduser");
     this.setState({
       isLoggedIn: true,
       user,
@@ -73,9 +73,9 @@ class App extends React.Component {
     let { isLoggedIn, isVerifying, user } = this.state;
     let { handleLogout, updatedUser } = this;
 
-    if (isVerifying) {
-      return <FullPageSpinner />;
-    }
+    // if (isVerifying) {
+    //   return <FullPageSpinner />;
+    // }
     return (
       <>
         <UserProvider value={{ isLoggedIn, user, handleLogout, updatedUser }}>
